@@ -9,22 +9,37 @@ let roomNo = 1;
 const addNewUser = (socketId, roomName) => {
   let room = rooms.find((room) => room.room === roomName);
   if (room) {
-    editedRoom = room.users.push({ socketId, playerMarker: "O" });
+    let userFound = room.users.find((user) => user.socketId === socketId);
+
+    if (!userFound) {
+      editedRoom = room.users.push({ socketId, playerMarker: "O" });
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
 // removing user from room
 const removeUser = (socketId) => {
-  let editedRoom = rooms.find((room) => room.users.includes(socketId));
+  let editedRoom = rooms.find((room) =>
+    room.users.find((user) => user.socketId === socketId)
+  );
+  if (!editedRoom) {
+    return;
+  }
   let removedUser = remove(editedRoom.users, function (user) {
     return user.socketId === socketId;
   });
+
   if (editedRoom.users.length === 0) {
     remove(rooms, function (room) {
-      room.room === editedRoom.room;
+      return room.room === editedRoom.room;
     });
   } else {
-    rooms = rooms.map((room) => (room.room == roomName ? editedRoom : room));
+    rooms = rooms.map((room) =>
+      room.room == editedRoom.room ? editedRoom : room
+    );
   }
 };
 
@@ -87,7 +102,20 @@ const roomHasCapacity = (socket, roomName) => {
   return true;
 };
 
+const getUserRoom = (socketId) => {
+  let editedRoom = rooms.find((room) =>
+    room.users.find((user) => user.socketId === socketId)
+  );
+
+  console.log(editedRoom);
+
+  if (editedRoom) {
+    return editedRoom.room;
+  }
+};
+
 module.exports = {
+  getUserRoom,
   addNewUser,
   roomHasCapacity,
   removeUser,
@@ -97,4 +125,5 @@ module.exports = {
   createNewRoom,
   isRoomExist,
   getRoomBoard,
+  rooms,
 };

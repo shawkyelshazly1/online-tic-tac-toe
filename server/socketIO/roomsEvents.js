@@ -5,6 +5,9 @@ const {
   createNewRoom,
   isRoomExist,
   roomHasCapacity,
+  rooms,
+  removeUser,
+  getUserRoom,
 } = require("../rooms");
 
 // joining room
@@ -17,11 +20,20 @@ const joinRandomRoom = (socket, client) => {
 
     if (roomCreated) {
       socket.join(roomName);
-      client.sockets.in(roomName).emit("joined-room");
+      if (getRoomUsersCount(roomName) < 2) {
+        socket.emit("joined-room");
+      } else {
+        client.sockets.in(roomName).emit("start-game");
+      }
     } else if (!roomCreated && roomHasCapacity(socket, roomName)) {
-      addNewUser(socket.id, roomName);
-      socket.join(roomName);
-      client.sockets.in(roomName).emit("joined-room");
+      if (addNewUser(socket.id, roomName)) {
+        socket.join(roomName);
+        if (getRoomUsersCount(roomName) < 2) {
+          socket.emit("joined-room");
+        } else {
+          client.sockets.in(roomName).emit("start-game");
+        }
+      }
     }
   });
 };
@@ -32,7 +44,7 @@ const createCustomRoom = (socket, client) => {
     let roomCreated = createNewRoom(socket.id, roomName);
     if (roomCreated) {
       socket.join(roomName);
-      client.sockets.in(roomName).emit("join-room");
+      socket.emit("joined-room");
     } else {
       socket.emit("error", { msg: "Room exists already" });
     }
@@ -45,16 +57,27 @@ const joinCustomRoom = (socket, client) => {
     if (!isRoomExist(roomName)) {
       socket.emit("error", { msg: "Invalid Room Name." });
     } else if (roomHasCapacity(socket, roomName)) {
-      addNewUser(socket.id, roomName);
-      client.sockets.in(roomName).emit("joined-room");
+      if (addNewUser(socket.id, roomName)) {
+        socket.join(roomName);
+        if (getRoomUsersCount(roomName) < 2) {
+          socket.emit("joined-room");
+        } else {
+          client.sockets.in(roomName).emit("start-game");
+        }
+      }
     }
   });
 };
 
 // disconnect user from room
 const userLeftRoom = (socket, client) => {
+  let roomName = "";
   socket.on("disconnecting", () => {
-    client.sockets.in(socket.rooms[0]).emit("user-left");
+    roomName = [...socket.rooms][1];
+    removeUser(socket.id);
+  });
+  socket.on("disconnect", () => {
+    socket.broadcast.to(roomName).emit("user-left");
   });
 };
 

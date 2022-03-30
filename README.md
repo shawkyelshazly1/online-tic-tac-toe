@@ -22,11 +22,11 @@ Built with ♥ using React, TailwindCSS , Redux.
 
 - **Backend**
 
-  - [ ] _Setup Express Server_
-  - [ ] _Setup SocketIO Server_
-  - [ ] _Users & Rooms Data Structure along with baord for each room_
-  - [ ] _Adding,removing users && joining room functionality_
-  - [ ] _Handle joining room with max size of 2_
+  - [x] _Setup Express Server_
+  - [x] _Setup SocketIO Server_
+  - [x] _Users & Rooms Data Structure along with baord for each room_
+  - [x] _Adding,removing users && joining room functionality_
+  - [x] _Handle joining room with max size of 2_
   - [ ] _Game Logic_
   - [ ] _events for starting & waiting for games_
   - [ ] _player turns and changing turn_
