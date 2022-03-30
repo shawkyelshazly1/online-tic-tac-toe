@@ -28,7 +28,7 @@ Built with ♥ using React, TailwindCSS , Redux.
   - [x] _Adding,removing users && joining room functionality_
   - [x] _Handle joining room with max size of 2_
   - [ ] _Game Logic_
-  - [ ] _events for starting & waiting for games_
+  - [x] _events for starting & waiting for games_
   - [ ] _player turns and changing turn_
   - [ ] _announcing winner & resetting board_
   - [ ] _handle disconnection & room deletion_
@@ -36,6 +36,7 @@ Built with ♥ using React, TailwindCSS , Redux.
 - **FrontEnd**
   - [x] _Init React Project_
   - [x] _Add Tailwind Css support_
-  - [ ] _Global Redux store_
-  - [ ] _initial socket reducer state_
-  - [ ] _socket reducer actions_
+  - [x] _Global Redux store_
+  - [x] _initial socket reducer state_
+  - [x] _socket reducer actions_
+  - [ ] _reducer game actions & state_

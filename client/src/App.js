@@ -7,9 +7,10 @@ import {
 import WelcomeScreen from "./components/WelcomeScreen";
 import { useSelector } from "react-redux";
 import Searching from "./components/Searching";
+import GameBoard from "./components/GameBoard";
 
 function App() {
-  const { joinedRoom, gameStarted, socket } = useSelector(
+  const { joinedRoom, gameStarted, socket, roomName, myTurn } = useSelector(
     (state) => state.socket
   );
 
@@ -30,13 +31,26 @@ function App() {
   if (!joinedRoom && !gameStarted) {
     child = <WelcomeScreen />;
   } else if (joinedRoom && !gameStarted) {
-    child = <Searching />;
+    child = (
+      <>
+        <Searching />
+        <h1>Waiting for a player to join</h1>
+      </>
+    );
   } else if (joinedRoom && gameStarted) {
-    child = "started Game";
+    child = (
+      <>
+        <h1 className="text-xl">Room: {roomName}</h1>
+        <h1 className="text-xl">
+          {myTurn ? "It's Your Turn" : "Waiting for other player's turn"}
+        </h1>
+        <GameBoard />
+      </>
+    );
   }
 
   return (
-    <div className="w-full h-screen flex flex-col gap-3 items-center justify-center">
+    <div className="w-full h-screen flex flex-col gap-3 items-center justify-center py-4">
       {child}
     </div>
   );

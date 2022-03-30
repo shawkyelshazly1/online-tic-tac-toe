@@ -20,8 +20,8 @@ class GameBoard {
 
   // add played move on board
   addToBoard = (index, playerMarker) => {
-    if (board[index] === "") {
-      board[index] = playerMarker;
+    if (this.board[index] === "") {
+      this.board[index] = playerMarker;
     }
   };
 
