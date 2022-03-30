@@ -6,6 +6,10 @@ const initialState = {
   gameStarted: false,
   gameOver: false,
   erro: "",
+  roomName: "",
+  playerMarker: "",
+  myTurn: false,
+  board: ["", "", "", "", "", "", "", "", ""],
 };
 
 const socketReducer = function (state = initialState, action) {
@@ -16,10 +20,13 @@ const socketReducer = function (state = initialState, action) {
         socket: action.payload.socket,
       };
     case socketActionTypes.JOINED_ROOM:
+      console.log(action.payload.playerMarker);
       return {
         ...state,
         joinedRoom: true,
         error: "",
+        roomName: action.payload.roomName,
+        playerMarker: action.payload.playerMarker,
       };
     case socketActionTypes.GAME_STARTED:
       return {
@@ -40,6 +47,17 @@ const socketReducer = function (state = initialState, action) {
         gameOver: false,
         erro: "",
       };
+    case socketActionTypes.SWITCH_TURN:
+      return {
+        ...state,
+        myTurn: action.payload.currentTurn === state.playerMarker,
+      };
+
+    case socketActionTypes.PLACE_MARKER:
+      let temp = state.board;
+      temp[action.payload.tileNo] = action.payload.playerMarker;
+      return { ...state, board: temp };
+
     default:
       return {
         ...state,

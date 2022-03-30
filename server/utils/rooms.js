@@ -1,5 +1,5 @@
 const { remove } = require("lodash");
-const { GameBoard } = require("./gameLogic");
+const { GameBoard } = require("../gameLogic");
 // initial state
 
 let rooms = [];
@@ -32,7 +32,7 @@ const removeUser = (socketId) => {
     return user.socketId === socketId;
   });
 
-  if (editedRoom.users.length === 0) {
+  if (editedRoom.users.length < 2) {
     remove(rooms, function (room) {
       return room.room === editedRoom.room;
     });

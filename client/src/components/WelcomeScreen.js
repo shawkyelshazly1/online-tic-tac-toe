@@ -18,8 +18,8 @@ export default function WelcomeScreen() {
       store.dispatch(setError(msg));
     });
 
-    socket.on("joined-room", () => {
-      store.dispatch(joinedRoom());
+    socket.on("joined-room", ({ roomName, playerMarker }) => {
+      store.dispatch(joinedRoom(roomName, playerMarker));
     });
 
     socket.on("start-game", () => {
