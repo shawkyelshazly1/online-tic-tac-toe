@@ -1,4 +1,5 @@
 const { Server } = require("socket.io");
+const { initRoomsEevents } = require("./roomsEevents");
 
 // Initializing the socketIO server
 const initSocketIO = (httpServer) => {
@@ -10,10 +11,7 @@ const initSocketIO = (httpServer) => {
 
   ioServer.on("connection", (socket) => {
     console.log(`New client connected`);
-
-    socket.on("disconnected", () => {
-      console.log(` client disconnected`);
-    });
+    initRoomsEevents(socket, ioServer);
   });
 };
 

@@ -1,10 +1,4 @@
-# Online Multiplayer Tic-Tac-Toe
-
-⁣⭕❕⭕❕❌
-➖➕➖➕➖
-⭕❕⁣❌❕⭕
-➖➕➖➕➖
-❌❕❌❕⭕
+# Online Multiplayer Tic-Tac-Toe ⁣⭕❕⭕❕❌
 
 ##### _Your favourite online game_
 
