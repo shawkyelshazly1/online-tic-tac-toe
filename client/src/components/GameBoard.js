@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { range } from "lodash";
 import GridTile from "./GridTile";
 import { useSelector } from "react-redux";
@@ -10,17 +10,17 @@ export default function GameBoard() {
 
   const gridTiles = 9;
 
-  if (socket) {
-    socket.on("switch-turn", ({ currentTurn }) => {
-      store.dispatch(switchTurns(currentTurn));
-    });
+  useEffect(() => {
+    if (socket) {
+      socket.on("switch-turn", ({ currentTurn }) => {
+        store.dispatch(switchTurns(currentTurn));
+      });
 
-    socket.on("played-turn", ({ tileNo, playerMarker }) => {
-      store.dispatch(placeMarker(tileNo, playerMarker));
-    });
-  }
-
-  console.log(myTurn);
+      socket.on("played-turn", ({ tileNo, playerMarker }) => {
+        store.dispatch(placeMarker(tileNo, playerMarker));
+      });
+    }
+  }, [socket]);
 
   return (
     <div className="h-full w-full justify-center items-center flex flex-1">

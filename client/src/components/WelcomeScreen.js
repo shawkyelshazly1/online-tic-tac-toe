@@ -13,19 +13,21 @@ import JoinRandomRoom from "./JoinRandomRoom";
 export default function WelcomeScreen() {
   const { socket, error } = useSelector((state) => state.socket);
 
-  if (socket) {
-    socket.on("error", ({ msg }) => {
-      store.dispatch(setError(msg));
-    });
+  useEffect(() => {
+    if (socket) {
+      socket.on("error", ({ msg }) => {
+        store.dispatch(setError(msg));
+      });
 
-    socket.on("joined-room", ({ roomName, playerMarker }) => {
-      store.dispatch(joinedRoom(roomName, playerMarker));
-    });
+      socket.on("joined-room", ({ roomName, playerMarker }) => {
+        store.dispatch(joinedRoom(roomName, playerMarker));
+      });
 
-    socket.on("start-game", () => {
-      store.dispatch(gameStarted());
-    });
-  }
+      socket.on("start-game", () => {
+        store.dispatch(gameStarted());
+      });
+    }
+  }, [socket]);
 
   return (
     <>

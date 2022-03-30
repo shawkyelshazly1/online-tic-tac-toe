@@ -13,25 +13,23 @@ let emptyBoard = ["", "", "", "", "", "", "", "", ""];
 // checking winner based on the baord and played index
 
 // Gameboard Class
-class GameBoard {
-  constructor() {
-    this.board = emptyBoard;
-  }
+function GameBoard() {
+  this.board = emptyBoard;
 
   // add played move on board
-  addToBoard = (index, playerMarker) => {
+  this.addToBoard = (index, playerMarker) => {
     if (this.board[index] === "") {
       this.board[index] = playerMarker;
     }
   };
 
   // reseting board
-  resetBoard = () => {
+  this.resetBoard = () => {
     this.board = emptyBoard;
   };
 
   // check for winner
-  checkWinner = (index, playerMarker) => {
+  this.checkWinner = (index, playerMarker) => {
     return winningCases
       .filter((winningCase) => winningCase.includes(index))
       .some((possibleCase) => {
@@ -39,14 +37,12 @@ class GameBoard {
           (index) => this.board[index] === playerMarker
         );
         if (win) {
+          console.log(possibleCase);
           return possibleCase;
         }
         return null;
       });
   };
 }
-
-
-
 
 module.exports = { GameBoard };

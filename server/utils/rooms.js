@@ -78,7 +78,8 @@ const createNewRoom = (socketId, roomName) => {
     return null;
   }
 
-  // creating room id doesn't exist
+  
+  // creating room if doesn't exist
   rooms.push({
     room: roomName,
     users: [{ socketId, playerMarker: "X" }],

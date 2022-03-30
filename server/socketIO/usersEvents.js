@@ -8,7 +8,9 @@ const PlayMove = (socket, client) => {
     board.addToBoard(tileNo, playerMarker);
     client.sockets.in(roomName).emit("played-turn", { tileNo, playerMarker });
     if (board.checkWinner(tileNo, playerMarker)) {
-      console.log("winner is " + playerMarker);
+      client.sockets
+        .in(roomName)
+        .emit("gameOver", { msg: `Winner is Player ${playerMarker}` });
     }
 
     let currentTurn = switchTurn(playerMarker);
